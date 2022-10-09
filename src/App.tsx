@@ -9,7 +9,7 @@ const App: React.FC = () => {
   console.log(api);
 
   return (
-    <div className=" grid grid-cols-4">
+    <div className="grid grid-cols-4">
       <div className="col-span-1">
         <Forecast />
       </div>

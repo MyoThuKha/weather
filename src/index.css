@@ -1,4 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -14,4 +14,28 @@ body {
 
 .background {
   background-image: url("https://picsum.photos/seed/picsum/240/128");
+}
+
+.circle-btn {
+  @apply flex-center w-10 h-10 rounded-full shadow-sm mx-2 text-sm font-semibold;
+}
+
+.hightlight-item {
+  @apply bg-white shadow-sm rounded-3xl col-span-1 p-5 flex items-center h-full;
+}
+
+.main-text {
+  @apply text-4xl py-8;
+}
+
+.sec-text {
+  @apply text-xl;
+}
+
+.hl-h {
+  @apply text-sm text-gray-400 capitalize;
+}
+
+.hl-f {
+  @apply text-sm capitalize;
 }

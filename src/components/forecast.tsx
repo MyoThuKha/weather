@@ -1,10 +1,10 @@
 const Forecast = () => {
   return (
-    <div className="mx-10">
+    <div className="px-10 py-8">
       <input placeholder="City" className=" bg-white" />
       <div className=" w-52 h-52 bg-purple-600"></div>
       <div>
-        <p className=" text-8xl">
+        <p className="text-8xl">
           12°<sup>c</sup>
         </p>
         <p className="text-lg">
