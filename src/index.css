@@ -21,7 +21,7 @@ body {
 }
 
 .hightlight-item {
-  @apply bg-white shadow-sm rounded-3xl col-span-1 p-5 flex items-center h-full;
+  @apply bg-white shadow-md rounded-3xl col-span-1 p-5 flex items-center h-full;
 }
 
 .main-text {

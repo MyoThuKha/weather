@@ -17,12 +17,13 @@ const Highlight: React.FC<highlightProps> = () => {
         </div>
       </header>
       <section className="h-2/3">
-        <h2 className="text-lg pb-8">Today HightLights</h2>
+        <h2 className="text-2xl pb-8">Today HightLights</h2>
         <div className="grid grid-cols-3 gap-8">
           <div className="hightlight-item">
             <div>
               <p className="hl-h">UV index</p>
-              <p className="text-5xl">5</p>
+              <p className="main-text">5</p>
+              <p className="hl-f">hot</p>
             </div>
           </div>
           <div className="hightlight-item">
