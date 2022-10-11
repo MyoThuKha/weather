@@ -2,7 +2,7 @@ const Forecast = () => {
   return (
     <div className="px-10 py-8 min-h-screen">
       <section style={{ minHeight: "25vh" }}>
-        <input placeholder="City" className=" bg-white" />
+        <input placeholder="City" className="input-box" />
       </section>
       <section style={{ minHeight: "30vh" }} className="flex items-center">
         {/* <div className=" w-52 h-52 bg-purple-600"></div> */}

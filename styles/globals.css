@@ -39,3 +39,11 @@ body {
 .hl-f {
   @apply text-sm capitalize;
 }
+
+.input-box {
+  /* background-color: black; */
+  @apply rounded-full border px-4 py-2;
+}
+::placeholder {
+  color: black;
+}
