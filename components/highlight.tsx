@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 
-interface highlightProps {}
+interface highlightProps {
+  handleUnit: () => void;
+}
 
-const Highlight: React.FC<highlightProps> = () => {
+const Highlight: React.FC<highlightProps> = ({ handleUnit }) => {
   const [curr, setCurr] = useState(true);
   const handleChange = () => {
     setCurr(() => !curr);
   };
   return (
-    <div className="h-screen px-14 text-lg py-8 bg-white-custom">
+    <div className="min-h-screen px-14 text-lg py-8 bg-white-custom">
       {/* <section className="h-1/3"> */}
       <header className="flex justify-between">
         <h2 className="text-lg">Today</h2>

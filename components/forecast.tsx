@@ -1,14 +1,33 @@
-const Forecast = () => {
+import React from "react";
+import Image from "next/image";
+import { getStaticProps } from "../pages";
+import { InferGetStaticPropsType } from "next";
+interface forecastProps {
+  unit: string;
+  // data: typeof getStaticProps;
+  data: InferGetStaticPropsType<typeof getStaticProps>;
+}
+
+const Forecast: React.FC<forecastProps> = ({ unit, data }) => {
+  const temp: string = data.main.temp;
+  const weather: string = data.weather[0].description;
   return (
     <div className="px-10 py-8 min-h-screen">
-      <section style={{ minHeight: "25vh" }}>
+      <section>
         <input placeholder="City" className="input-box" />
       </section>
-      <section style={{ minHeight: "30vh" }} className="flex items-center">
-        {/* <div className=" w-52 h-52 bg-purple-600"></div> */}
+      <section>
+        <div className="w-52 h-52">
+          <Image
+            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+            alt="icon"
+            width={200}
+            height={200}
+          />
+        </div>
         <div>
-          <p className="text-8xl">
-            12°<sup>c</sup>
+          <p className="text-7xl">
+            {temp}°<sup>c</sup>
           </p>
           <p className="text-lg">
             Monday, <span className=" text-gray-400">16:00</span>
@@ -18,7 +37,7 @@ const Forecast = () => {
       <hr />
       <section style={{ minHeight: "32vh" }}>
         <div>
-          <p className="text-sm">Mostly Cloudy</p>
+          <p className="text-sm capitalize">{weather}</p>
           <p className="text-sm">Rain - 30%</p>
           <div className="h-32 rounded-3xl text-white flex-center drop-shadow-2xl background">
             New York
