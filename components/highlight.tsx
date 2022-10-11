@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface highlightProps {}
 
 const Highlight: React.FC<highlightProps> = () => {
+  const [curr, setCurr] = useState(true);
+  const handleChange = () => {
+    setCurr(() => !curr);
+  };
   return (
-    <div
-      className="h-screen px-14 text-lg py-8"
-      style={{ backgroundColor: "#f6f6f8" }}
-    >
+    <div className="h-screen px-14 text-lg py-8 bg-white-custom">
       {/* <section className="h-1/3"> */}
       <header className="flex justify-between">
         <h2 className="text-lg">Today</h2>
         <div className="flex justify-between">
-          <button className="bg-black text-white circle-btn">°C</button>
-          <button className="bg-white circle-btn">°F</button>
+          <ChangeUnit curr={curr} isC={true} handleChange={handleChange}>
+            °C
+          </ChangeUnit>
+          <ChangeUnit curr={curr} isC={false} handleChange={handleChange}>
+            °F
+          </ChangeUnit>
+          {/* <button className="bg-white circle-btn">°F</button> */}
         </div>
       </header>
       <section className="h-2/3">
@@ -70,4 +76,26 @@ const Highlight: React.FC<highlightProps> = () => {
     </div>
   );
 };
+
+interface buttonProps {
+  children: string;
+  curr: boolean;
+  isC: boolean;
+  handleChange: () => void;
+}
+const ChangeUnit: React.FC<buttonProps> = ({
+  children,
+  curr,
+  isC,
+  handleChange,
+}) => {
+  const style =
+    curr === isC ? "bg-black text-white circle-btn" : "bg-white circle-btn";
+  return (
+    <button onClick={() => handleChange()} className={style}>
+      {children}
+    </button>
+  );
+};
+
 export default Highlight;
