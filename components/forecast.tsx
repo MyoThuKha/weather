@@ -20,9 +20,10 @@ const Forecast: React.FC<forecastProps> = ({
   dt,
   cloud,
 }) => {
-  let temperature = "";
-  temperature =
-    unit === "f" ? ((parseFloat(temp) * 9) / 5 + 32).toFixed(2) : temp;
+  let temperature = temp;
+  if (unit === "f") {
+    temperature = ((parseFloat(temp) * 9) / 5 + 32).toFixed(2);
+  }
 
   const time = formatDate(dt);
   return (
@@ -33,10 +34,10 @@ const Forecast: React.FC<forecastProps> = ({
       <section>
         <div className="w-52 h-52">
           <Image
-            src={`http://openweathermap.org/img/w/${icon}.png`}
+            src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
             alt="icon"
-            width={200}
-            height={200}
+            width={120}
+            height={120}
           />
         </div>
         <div>

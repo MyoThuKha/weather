@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
 import ChangeUnit from "./tools/btn";
 import { formatTime } from "./tools/formatTime";
+import Image from "next/image";
 
 interface highlightProps {
+  unit: string;
   handleUnit: () => void;
   wind: {
     speed: number;
@@ -15,14 +17,21 @@ interface highlightProps {
     rise: number;
     set: number;
   };
+  feel: number;
+  min: number;
+  max: number;
 }
 
 const Highlight: React.FC<highlightProps> = ({
+  unit,
   handleUnit,
   humidity,
   wind,
   visibility,
   sys,
+  feel,
+  min,
+  max,
 }) => {
   const windSpeed = (wind.speed * 3.6).toFixed(2);
   const visible = (visibility / 1000).toString();
@@ -30,6 +39,27 @@ const Highlight: React.FC<highlightProps> = ({
   const sunrise = formatTime(sys.rise);
   const sunset = formatTime(sys.set);
 
+  let feelLike: string | number = feel;
+  if (unit === "f") {
+    feelLike = ((feel * 9) / 5 + 32).toFixed(2);
+  }
+  let min_temp: string | number = min;
+  if (unit === "f") {
+    min_temp = ((min * 9) / 5 + 32).toFixed(2);
+  }
+  let max_temp: string | number = max;
+  if (unit === "f") {
+    max_temp = ((max * 9) / 5 + 32).toFixed(2);
+  }
+
+  const temp_condition: string = useMemo(() => {
+    if (visibility > 6660) {
+      return "clear";
+    } else if (visibility > 3330) {
+      return "average";
+    }
+    return "foggy";
+  }, [visibility]);
   const vi_condition: string = useMemo(() => {
     if (visibility > 6660) {
       return "clear";
@@ -43,9 +73,9 @@ const Highlight: React.FC<highlightProps> = ({
     const humid = parseFloat(humidity);
     if (humid >= 30 && humid < 50) {
       return "good";
-    } else if ((humid >= 60 && humid < 70) || (humid >= 25 && humid < 30)) {
-      return "fair";
-    } else return "poor";
+    } else if (humid < 25 || humid >= 70) {
+      return "poor";
+    } else return "fair";
   }, [humidity]);
 
   const [curr, setCurr] = useState(true);
@@ -69,26 +99,63 @@ const Highlight: React.FC<highlightProps> = ({
       <section className="h-2/3">
         <h2 className="text-2xl pb-8">Today HightLights</h2>
         <div className="grid grid-cols-3 gap-8">
+          {/* feel like */}
           <div className="hightlight-item">
             <div>
-              <p className="hl-h">UV index</p>
-              <p className="main-text">5</p>
-              <p className="hl-f">hot</p>
+              <p className="hl-h">feel like</p>
+              <p className="main-text capitalize">
+                {feelLike}
+                <span>°{unit}</span>
+              </p>
+              <p className="hl-f">{temp_condition}</p>
             </div>
           </div>
-          <Item
-            header="wind status"
-            body={windSpeed}
-            unit={"km/h"}
-            footer={windDirection}
-          />
 
+          <div className="hightlight-item">
+            <div>
+              <p className="hl-h">wind status</p>
+              <p className="main-text">
+                {windSpeed}
+                <span className="sec-text"> km/h</span>
+              </p>
+              <div className="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  className="bi bi-compass"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+                  <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z" />
+                </svg>
+                <p className="hl-f px-2">{windDirection}</p>
+              </div>
+            </div>
+          </div>
           <div className="hightlight-item">
             <div>
               <p className="hl-h">sunrise & sunset</p>
               <div className="main-text uppercase">
-                <p className="text-2xl">{sunrise}</p>
-                <p className="text-2xl">{sunset}</p>
+                <div className="flex items-center">
+                  <Image
+                    src="http://openweathermap.org/img/wn/02d@2x.png"
+                    alt="sunrise"
+                    width={40}
+                    height={40}
+                  />
+                  <p className="text-2xl">{sunrise}</p>
+                </div>
+                <div className="flex items-center">
+                  <Image
+                    src="http://openweathermap.org/img/wn/02n@2x.png"
+                    alt="sunset"
+                    width={40}
+                    height={40}
+                  />
+                  <p className="text-2xl">{sunset}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -106,10 +173,28 @@ const Highlight: React.FC<highlightProps> = ({
           />
 
           <div className="hightlight-item">
-            <div>
-              <p className="hl-h">air quality</p>
-              <p className="main-text">105</p>
-              <p className="hl-f">Unhealthy</p>
+            <div className="w-full">
+              <h4 className="hl-h">max & min</h4>
+              <div className="flex items-center justify-around">
+                <div className="main-text text-center">
+                  <p className="text-2xl">
+                    {max_temp}
+                    <span className="capitalize">°{unit}</span>
+                  </p>
+                  <p className="text-2xl">
+                    {min_temp}
+                    <span className="capitalize">°{unit}</span>
+                  </p>
+                </div>
+                <div>
+                  <Image
+                    src="/temperature.png"
+                    alt="temp"
+                    width={40}
+                    height={83.2}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -120,7 +205,7 @@ const Highlight: React.FC<highlightProps> = ({
 
 interface itemProps {
   header: string;
-  body: string;
+  body: string | number;
   unit: string;
   footer: string;
 }

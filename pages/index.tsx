@@ -41,11 +41,15 @@ const Home: React.FC<homeProps> = ({ data }) => {
       </div>
       <div className=" col-span-3">
         <Highlight
+          unit={unit}
           handleUnit={handleUnit}
           wind={{ ...data.wind }}
           humidity={data.main.humidity}
           visibility={data.visibility}
           sys={{ rise: data.sys.sunrise, set: data.sys.sunset }}
+          feel={data.main.feels_like}
+          min={data.main.temp_min}
+          max={data.main.temp_max}
         />
       </div>
     </div>
