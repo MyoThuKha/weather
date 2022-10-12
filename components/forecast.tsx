@@ -10,11 +10,9 @@ interface forecastProps {
 }
 
 const Forecast: React.FC<forecastProps> = ({ unit, temp, weather, icon }) => {
-  // const temp: string = data.main.temp;
-  // const weather: string = data.weather[0].description;
-  let temperature = 0;
+  let temperature = "";
   temperature =
-    unit === "f" ? (parseFloat(temp) * 9) / 5 + 32 : parseFloat(temp);
+    unit === "f" ? ((parseFloat(temp) * 9) / 5 + 32).toFixed(2) : temp;
   return (
     <div className="px-10 py-8 min-h-screen">
       <section>
