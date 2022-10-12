@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import ChangeUnit from "./tools/btn";
+import formatTime from "./tools/formatTime";
 
 interface highlightProps {
   handleUnit: () => void;
@@ -13,6 +14,7 @@ interface highlightProps {
   sys: {
     rise: number;
     set: number;
+    zone: number;
   };
 }
 
@@ -26,6 +28,8 @@ const Highlight: React.FC<highlightProps> = ({
   const windSpeed = (wind.speed * 3.6).toFixed(2);
   const visible = (visibility / 1000).toString();
   const windDirection = wind.deg.toString() + "°";
+  const sunrise = formatTime(sys.rise);
+  const sunset = formatTime(sys.set);
 
   const vi_condition: string = useMemo(() => {
     if (visibility > 6660) {
@@ -79,9 +83,14 @@ const Highlight: React.FC<highlightProps> = ({
             unit={"km/h"}
             footer={windDirection}
           />
+
           <div className="hightlight-item">
             <div>
               <p className="hl-h">sunrise & sunset</p>
+              <div className="main-text">
+                <p className="text-2xl">{sunrise}</p>
+                <p className="text-2xl">{sunset}</p>
+              </div>
             </div>
           </div>
           <Item

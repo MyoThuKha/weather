@@ -43,7 +43,11 @@ const Home: React.FC<homeProps> = ({ data }) => {
           wind={{ ...data.wind }}
           humidity={data.main.humidity}
           visibility={data.visibility}
-          sys={{ rise: data.sys.sunrise, set: data.sys.sunset }}
+          sys={{
+            rise: data.sys.sunrise,
+            set: data.sys.sunset,
+            zone: data.timezone,
+          }}
         />
       </div>
     </div>
