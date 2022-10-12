@@ -35,6 +35,8 @@ const Home: React.FC<homeProps> = ({ data }) => {
           temp={data.main.temp}
           weather={data.weather[0].description}
           icon={data.weather[0].icon}
+          dt={data.dt}
+          cloud={data.clouds.all}
         />
       </div>
       <div className=" col-span-3">
@@ -43,11 +45,7 @@ const Home: React.FC<homeProps> = ({ data }) => {
           wind={{ ...data.wind }}
           humidity={data.main.humidity}
           visibility={data.visibility}
-          sys={{
-            rise: data.sys.sunrise,
-            set: data.sys.sunset,
-            zone: data.timezone,
-          }}
+          sys={{ rise: data.sys.sunrise, set: data.sys.sunset }}
         />
       </div>
     </div>

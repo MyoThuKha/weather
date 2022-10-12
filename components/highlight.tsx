@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import ChangeUnit from "./tools/btn";
-import formatTime from "./tools/formatTime";
+import { formatTime } from "./tools/formatTime";
 
 interface highlightProps {
   handleUnit: () => void;
@@ -14,7 +14,6 @@ interface highlightProps {
   sys: {
     rise: number;
     set: number;
-    zone: number;
   };
 }
 
@@ -87,7 +86,7 @@ const Highlight: React.FC<highlightProps> = ({
           <div className="hightlight-item">
             <div>
               <p className="hl-h">sunrise & sunset</p>
-              <div className="main-text">
+              <div className="main-text uppercase">
                 <p className="text-2xl">{sunrise}</p>
                 <p className="text-2xl">{sunset}</p>
               </div>

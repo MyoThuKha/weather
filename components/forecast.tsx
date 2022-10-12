@@ -2,17 +2,29 @@ import React from "react";
 import Image from "next/image";
 import { getStaticProps } from "../pages";
 import { InferGetStaticPropsType } from "next";
+import { formatDate } from "./tools/formatTime";
 interface forecastProps {
   unit: string;
   temp: string;
   weather: string;
   icon: string;
+  dt: number;
+  cloud: number;
 }
 
-const Forecast: React.FC<forecastProps> = ({ unit, temp, weather, icon }) => {
+const Forecast: React.FC<forecastProps> = ({
+  unit,
+  temp,
+  weather,
+  icon,
+  dt,
+  cloud,
+}) => {
   let temperature = "";
   temperature =
     unit === "f" ? ((parseFloat(temp) * 9) / 5 + 32).toFixed(2) : temp;
+
+  const time = formatDate(dt);
   return (
     <div className="px-10 py-8 min-h-screen">
       <section>
@@ -31,8 +43,8 @@ const Forecast: React.FC<forecastProps> = ({ unit, temp, weather, icon }) => {
           <p className="text-7xl capitalize">
             {temperature}°<sup>{unit}</sup>
           </p>
-          <p className="text-lg">
-            Monday, <span className=" text-gray-400">16:00</span>
+          <p className="text-lg capitalize">
+            {time[0]}, <span className=" text-gray-400">{time[1]}</span>
           </p>
         </div>
       </section>
@@ -40,7 +52,7 @@ const Forecast: React.FC<forecastProps> = ({ unit, temp, weather, icon }) => {
       <section style={{ minHeight: "32vh" }}>
         <div>
           <p className="text-sm capitalize">{weather}</p>
-          <p className="text-sm">Rain - 30%</p>
+          <p className="text-sm">Cloud - {cloud}%</p>
           <div className="h-32 rounded-3xl text-white flex-center drop-shadow-2xl background">
             New York
           </div>

@@ -10,4 +10,26 @@ const formatTime = (unix: number) => {
   return strTime;
 };
 
-export default formatTime;
+const formatDate = (unix: number) => {
+  const date = new Date(unix * 1000);
+  const hours = date.getHours();
+  let minutes: string | number = date.getMinutes();
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  const day = date.getDay();
+  const week = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thirsday",
+    "friday",
+    "saturday",
+  ];
+
+  const time = hours + ":" + minutes;
+
+  const result: string[] = [week[day], time];
+  return result;
+};
+
+export { formatTime, formatDate };
