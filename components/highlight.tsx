@@ -6,8 +6,10 @@ interface highlightProps {
 
 const Highlight: React.FC<highlightProps> = ({ handleUnit }) => {
   const [curr, setCurr] = useState(true);
+
   const handleChange = () => {
     setCurr(() => !curr);
+    handleUnit();
   };
   return (
     <div className="min-h-screen px-14 text-lg py-8 bg-white-custom">
@@ -94,7 +96,12 @@ const ChangeUnit: React.FC<buttonProps> = ({
   const style =
     curr === isC ? "bg-black text-white circle-btn" : "bg-white circle-btn";
   return (
-    <button onClick={() => handleChange()} className={style}>
+    <button
+      onClick={() => {
+        handleChange();
+      }}
+      className={style}
+    >
       {children}
     </button>
   );

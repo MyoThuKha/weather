@@ -30,7 +30,12 @@ const Home: React.FC<homeProps> = ({ data }) => {
   return (
     <div className="grid grid-cols-4">
       <div className="col-span-1">
-        <Forecast unit={unit} data={data} />
+        <Forecast
+          unit={unit}
+          temp={data.main.temp}
+          weather={data.weather[0].description}
+          icon={data.weather[0].icon}
+        />
       </div>
       <div className=" col-span-3">
         <Highlight handleUnit={handleUnit} />

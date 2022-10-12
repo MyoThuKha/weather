@@ -4,13 +4,17 @@ import { getStaticProps } from "../pages";
 import { InferGetStaticPropsType } from "next";
 interface forecastProps {
   unit: string;
-  // data: typeof getStaticProps;
-  data: InferGetStaticPropsType<typeof getStaticProps>;
+  temp: string;
+  weather: string;
+  icon: string;
 }
 
-const Forecast: React.FC<forecastProps> = ({ unit, data }) => {
-  const temp: string = data.main.temp;
-  const weather: string = data.weather[0].description;
+const Forecast: React.FC<forecastProps> = ({ unit, temp, weather, icon }) => {
+  // const temp: string = data.main.temp;
+  // const weather: string = data.weather[0].description;
+  let temperature = 0;
+  temperature =
+    unit === "f" ? (parseFloat(temp) * 9) / 5 + 32 : parseFloat(temp);
   return (
     <div className="px-10 py-8 min-h-screen">
       <section>
@@ -19,15 +23,15 @@ const Forecast: React.FC<forecastProps> = ({ unit, data }) => {
       <section>
         <div className="w-52 h-52">
           <Image
-            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+            src={`http://openweathermap.org/img/w/${icon}.png`}
             alt="icon"
             width={200}
             height={200}
           />
         </div>
         <div>
-          <p className="text-7xl">
-            {temp}°<sup>c</sup>
+          <p className="text-7xl capitalize">
+            {temperature}°<sup>{unit}</sup>
           </p>
           <p className="text-lg">
             Monday, <span className=" text-gray-400">16:00</span>
