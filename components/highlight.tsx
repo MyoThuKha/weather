@@ -53,13 +53,12 @@ const Highlight: React.FC<highlightProps> = ({
   }
 
   const temp_condition: string = useMemo(() => {
-    if (visibility > 6660) {
-      return "clear";
-    } else if (visibility > 3330) {
-      return "average";
-    }
-    return "foggy";
-  }, [visibility]);
+    const value: number[] = unit === "f" ? [80, 60, 40] : [27, 16, 4];
+    if (feelLike > value[0]) return "hot";
+    else if (feelLike > value[1]) return "warm";
+    else if (feelLike > value[2]) return "cool";
+    else return "cold";
+  }, [feelLike, unit]);
   const vi_condition: string = useMemo(() => {
     if (visibility > 6660) {
       return "clear";
