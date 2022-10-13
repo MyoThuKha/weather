@@ -45,25 +45,11 @@ const Home: React.FC<homeProps> = ({ data }) => {
           inVal={inVal}
           handleInput={handleInput}
           handleLoc={handleLoc}
-          temp={data.main.temp}
-          weather={data.weather[0].description}
-          icon={data.weather[0].icon}
-          dt={data.dt}
-          cloud={data.clouds.all}
+          data={{ ...data }}
         />
       </div>
       <div className=" col-span-3">
-        <Highlight
-          unit={unit}
-          handleUnit={handleUnit}
-          wind={{ ...data.wind }}
-          humidity={data.main.humidity}
-          visibility={data.visibility}
-          sys={{ rise: data.sys.sunrise, set: data.sys.sunset }}
-          feel={data.main.feels_like}
-          min={data.main.temp_min}
-          max={data.main.temp_max}
-        />
+        <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
       </div>
     </div>
   );

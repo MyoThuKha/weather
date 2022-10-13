@@ -1,74 +1,53 @@
 import React, { useMemo, useState } from "react";
-import ChangeUnit from "./tools/btn";
-import { formatTime } from "./tools/formatTime";
+import { GetStaticProps, InferGetStaticPropsType } from "next/types";
 import Image from "next/image";
+import ChangeUnit from "./tools/btn";
+import changeF from "./tools/changeF";
+import { formatTime } from "./tools/formatTime";
+import _, { max } from "lodash";
 
 interface highlightProps {
   unit: string;
   handleUnit: () => void;
-  wind: {
-    speed: number;
-    deg: number;
-    gust: number;
-  };
-  humidity: string;
-  visibility: number;
-  sys: {
-    rise: number;
-    set: number;
-  };
-  feel: number;
-  min: number;
-  max: number;
+  data: InferGetStaticPropsType<GetStaticProps>;
 }
 
-const Highlight: React.FC<highlightProps> = ({
-  unit,
-  handleUnit,
-  humidity,
-  wind,
-  visibility,
-  sys,
-  feel,
-  min,
-  max,
-}) => {
-  const windSpeed = (wind.speed * 3.6).toFixed(2);
-  const visible = visibility / 1000;
-  const sunrise = formatTime(sys.rise);
-  const sunset = formatTime(sys.set);
+const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
+  const wind = data.wind;
+  const humidity: number = data.main.humidity;
+  const windSpeed = _.ceil(wind.speed * 3.6, 2);
+  const visible = data.visibility / 1000;
+  const sunrise = formatTime(data.sys.sunrise);
+  const sunset = formatTime(data.sys.sunset);
 
-  let min_temp: string | number = min;
-  let max_temp: string | number = max;
-  let feelLike: string | number = feel;
-  if (unit === "f") min_temp = ((min * 9) / 5 + 32).toFixed(2);
-  if (unit === "f") max_temp = ((max * 9) / 5 + 32).toFixed(2);
-  if (unit === "f") feelLike = ((feel * 9) / 5 + 32).toFixed(2);
+  let min_temp: number = data.main.temp_min;
+  let max_temp: number = data.main.temp_max;
+  let feelLike: number = data.main.feels_like;
+
+  if (unit === "f") {
+    min_temp = changeF(min_temp);
+    max_temp = changeF(max_temp);
+    feelLike = changeF(feelLike);
+  }
 
   const temp_condition: string = useMemo(() => {
-    const value: number[] = unit === "f" ? [80, 60, 40] : [27, 16, 4];
-    if (feelLike > value[0]) return "hot";
-    else if (feelLike > value[1]) return "warm";
-    else if (feelLike > value[2]) return "cool";
+    const value = unit === "c" ? changeF(feelLike) : feelLike;
+    if (value > 80) return "hot";
+    else if (value > 60) return "warm";
+    else if (value > 40) return "cool";
     else return "cold";
   }, [feelLike, unit]);
 
   const vi_condition: string = useMemo(() => {
-    if (visibility > 6660) {
-      return "clear";
-    } else if (visibility > 3330) {
-      return "average";
-    }
+    if (visible > 6.66) return "clear";
+    else if (visible > 3.33) return "average";
     return "foggy";
-  }, [visibility]);
+  }, [visible]);
 
   const h_condition: string = useMemo(() => {
-    const humid = parseFloat(humidity);
-    if (humid >= 30 && humid < 50) {
-      return "good";
-    } else if (humid < 25 || humid >= 70) {
-      return "poor";
-    } else return "fair";
+    if (humidity >= 30 && humidity < 50) return "good";
+    else if (humidity < 25 || humidity >= 70) return "poor";
+    else return "fair";
   }, [humidity]);
 
   const [curr, setCurr] = useState(true);

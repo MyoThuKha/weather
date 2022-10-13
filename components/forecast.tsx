@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { InferGetStaticPropsType } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { formatDate } from "./tools/formatTime";
+import changeF from "./tools/changeF";
 interface forecastProps {
   inVal: string;
   handleInput: (val: string) => void;
   handleLoc: (val: string) => void;
   unit: string;
-  temp: string;
-  weather: string;
-  icon: string;
-  dt: number;
-  cloud: number;
+  data: InferGetStaticPropsType<GetStaticProps>;
 }
 
 const Forecast: React.FC<forecastProps> = ({
+  unit,
   inVal,
   handleInput,
   handleLoc,
-  unit,
-  temp,
-  weather,
-  icon,
-  dt,
-  cloud,
+  data,
 }) => {
-  let temperature = temp;
-  if (unit === "f") {
-    temperature = ((parseFloat(temp) * 9) / 5 + 32).toFixed(2);
-  }
-  const time = formatDate(dt);
+  const temperature = unit === "f" ? changeF(data.main.temp) : data.main.temp;
+  const time = formatDate(data.dt);
 
   return (
     <div className="px-10 py-8 min-h-screen">
@@ -49,7 +39,7 @@ const Forecast: React.FC<forecastProps> = ({
         />
         <div className="">
           <Image
-            src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+            src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
             alt="icon"
             width={120}
             height={120}
@@ -75,7 +65,9 @@ const Forecast: React.FC<forecastProps> = ({
                 width={40}
                 height={40}
               />
-              <p className="text-sm capitalize py-1">{weather}</p>
+              <p className="text-sm capitalize py-1">
+                {data.weather[0].description}
+              </p>
             </div>
             <div className="flex items-center">
               <Image
@@ -84,7 +76,7 @@ const Forecast: React.FC<forecastProps> = ({
                 width={40}
                 height={40}
               />
-              <p className="text-sm">Cloud - {cloud}%</p>
+              <p className="text-sm">Cloud - {data.clouds.all}%</p>
             </div>
           </div>
           <div className="w-60 h-32 rounded-3xl text-white flex-center drop-shadow-2xl background">
