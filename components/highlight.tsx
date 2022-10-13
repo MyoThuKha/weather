@@ -34,23 +34,16 @@ const Highlight: React.FC<highlightProps> = ({
   max,
 }) => {
   const windSpeed = (wind.speed * 3.6).toFixed(2);
-  const visible = (visibility / 1000).toString();
-  const windDirection = wind.deg.toString() + "°";
+  const visible = visibility / 1000;
   const sunrise = formatTime(sys.rise);
   const sunset = formatTime(sys.set);
 
-  let feelLike: string | number = feel;
-  if (unit === "f") {
-    feelLike = ((feel * 9) / 5 + 32).toFixed(2);
-  }
   let min_temp: string | number = min;
-  if (unit === "f") {
-    min_temp = ((min * 9) / 5 + 32).toFixed(2);
-  }
   let max_temp: string | number = max;
-  if (unit === "f") {
-    max_temp = ((max * 9) / 5 + 32).toFixed(2);
-  }
+  let feelLike: string | number = feel;
+  if (unit === "f") min_temp = ((min * 9) / 5 + 32).toFixed(2);
+  if (unit === "f") max_temp = ((max * 9) / 5 + 32).toFixed(2);
+  if (unit === "f") feelLike = ((feel * 9) / 5 + 32).toFixed(2);
 
   const temp_condition: string = useMemo(() => {
     const value: number[] = unit === "f" ? [80, 60, 40] : [27, 16, 4];
@@ -59,6 +52,7 @@ const Highlight: React.FC<highlightProps> = ({
     else if (feelLike > value[2]) return "cool";
     else return "cold";
   }, [feelLike, unit]);
+
   const vi_condition: string = useMemo(() => {
     if (visibility > 6660) {
       return "clear";
@@ -129,7 +123,7 @@ const Highlight: React.FC<highlightProps> = ({
                   <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
                   <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z" />
                 </svg>
-                <p className="hl-f px-2">{windDirection}</p>
+                <p className="hl-f px-2">{wind.deg}°</p>
               </div>
             </div>
           </div>
