@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { formatDate } from "./tools/formatTime";
@@ -80,7 +80,7 @@ const Forecast: React.FC<forecastProps> = ({
             </div>
           </div>
           <div className="w-60 h-32 rounded-3xl text-white flex-center drop-shadow-2xl background">
-            New York
+            {data.name}
           </div>
         </div>
       </section>

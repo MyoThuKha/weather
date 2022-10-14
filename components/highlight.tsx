@@ -4,7 +4,7 @@ import Image from "next/image";
 import ChangeUnit from "./tools/btn";
 import changeF from "./tools/changeF";
 import { formatTime } from "./tools/formatTime";
-import _, { max } from "lodash";
+import _ from "lodash";
 
 interface highlightProps {
   unit: string;
