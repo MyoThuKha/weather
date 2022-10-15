@@ -70,7 +70,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
       </header>
       <section className="h-2/3">
         <h2 className="text-2xl pb-8 capitalize">forecast hightLights</h2>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 md:gap-2 lg:gap-8">
           {/* feel like */}
           <div className="hightlight-item">
             <div>
@@ -106,43 +106,58 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
               </div>
             </div>
           </div>
+
           <div className="hightlight-item">
             <div>
               <p className="hl-h">sunrise & sunset</p>
               <div className="main-text uppercase">
                 <div className="flex items-center">
-                  <Image
-                    src="http://openweathermap.org/img/wn/02d@2x.png"
-                    alt="sunrise"
-                    width={40}
-                    height={40}
-                  />
-                  <p className="text-2xl">{sunrise}</p>
+                  <div className="md:hidden lg:inline-block">
+                    <Image
+                      src="http://openweathermap.org/img/wn/02d@2x.png"
+                      alt="sunrise"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <p className="md:text-xl lg:text-2xl">{sunrise}</p>
                 </div>
                 <div className="flex items-center">
-                  <Image
-                    src="http://openweathermap.org/img/wn/02n@2x.png"
-                    alt="sunset"
-                    width={40}
-                    height={40}
-                  />
-                  <p className="text-2xl">{sunset}</p>
+                  <div className="md:hidden lg:inline-block">
+                    <Image
+                      src="http://openweathermap.org/img/wn/02n@2x.png"
+                      alt="sunset"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <p className="md:text-xl lg:text-2xl">{sunset}</p>
                 </div>
               </div>
             </div>
           </div>
-          <Item
-            header="humidity"
-            body={humidity}
-            unit={"%"}
-            footer={h_condition}
-          />
-          <Item
-            header="visibility"
-            body={visible}
-            unit={"km"}
-            footer={vi_condition}
-          />
+
+          <div className="hightlight-item">
+            <div>
+              <p className="hl-h">humidity</p>
+              <p className="main-text">
+                {humidity}
+                <span className="sec-text"> %</span>
+              </p>
+              <p className="hl-f">{h_condition}</p>
+            </div>
+          </div>
+
+          <div className="hightlight-item">
+            <div>
+              <p className="hl-h">visibility</p>
+              <p className="main-text">
+                {visible}
+                <span className="sec-text"> km</span>
+              </p>
+              <p className="hl-f">{vi_condition}</p>
+            </div>
+          </div>
 
           <div className="hightlight-item">
             <div className="w-full">
@@ -158,7 +173,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                     <span className="capitalize">°{unit}</span>
                   </p>
                 </div>
-                <div>
+                <div className="md:hidden lg:block">
                   <Image
                     src="/temperature.png"
                     alt="temp"
@@ -171,27 +186,6 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
           </div>
         </div>
       </section>
-    </div>
-  );
-};
-
-interface itemProps {
-  header: string;
-  body: string | number;
-  unit: string;
-  footer: string;
-}
-const Item: React.FC<itemProps> = ({ header, body, unit, footer }) => {
-  return (
-    <div className="hightlight-item">
-      <div>
-        <p className="hl-h">{header}</p>
-        <p className="main-text">
-          {body}
-          <span className="sec-text"> {unit}</span>
-        </p>
-        <p className="hl-f">{footer}</p>
-      </div>
     </div>
   );
 };

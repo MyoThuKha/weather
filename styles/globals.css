@@ -18,16 +18,20 @@ body {
   background-image: url("https://picsum.photos/id/1076/240/128");
 }
 
+.cityCard {
+  @apply w-full h-32 rounded-3xl text-white flex-center drop-shadow-2xl background;
+}
+
 .circle-btn {
   @apply flex-center w-10 h-10 rounded-full shadow-sm mx-2 text-sm font-semibold;
 }
 
 .hightlight-item {
-  @apply bg-white shadow-md rounded-3xl col-span-1 p-5 flex items-center h-full;
+  @apply bg-white shadow-md rounded-3xl col-span-1 p-5 flex items-center h-56;
 }
 
 .main-text {
-  @apply text-4xl py-8;
+  @apply md:text-3xl lg:text-4xl py-8;
 }
 
 .sec-text {

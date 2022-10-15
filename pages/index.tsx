@@ -4,7 +4,6 @@ import Forecast from "../components/forecast";
 import Highlight from "../components/highlight";
 import axios from "axios";
 import Navbar from "../components/navbar";
-import SMForecast from "../components/mobileForecast";
 
 export const getStaticProps: GetStaticProps = async () => {
   const apiKey = process.env.API_KEY;
@@ -63,39 +62,26 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   }, [apiKey, corr]);
 
   return (
-    <>
-      <div className="hidden md:grid md:grid-cols-4">
-        <div className="col-span-1 flex justify-center">
-          <Forecast
-            unit={unit}
-            inVal={inVal}
-            handleInput={handleInput}
-            handleLoc={handleLoc}
-            data={{ ...data }}
-          />
-        </div>
-        <div className="hidden md:block md:col-span-3">
-          <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
-        </div>
+    <div className="md:grid md:grid-cols-7 lg:grid-cols-4">
+      <div className="md:col-span-2 lg:col-span-1 flex justify-center">
+        <Forecast
+          unit={unit}
+          nav={nav}
+          inVal={inVal}
+          handleInput={handleInput}
+          handleLoc={handleLoc}
+          data={{ ...data }}
+        />
       </div>
-      <div className="md:hidden">
-        <div className="flex justify-center">
-          <SMForecast
-            unit={unit}
-            nav={nav}
-            inVal={inVal}
-            handleInput={handleInput}
-            handleLoc={handleLoc}
-            data={{ ...data }}
-          />
-        </div>
-        <footer className="flex md:hidden justify-center">
-          <nav className="bg-white fixed bottom-0">
-            <Navbar handleNav={handleNav} />
-          </nav>
-        </footer>
+      <div className="hidden md:block md:col-span-5 lg:col-span-3">
+        <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
       </div>
-    </>
+      <footer className="flex md:hidden justify-center">
+        <nav className="bg-white fixed bottom-0">
+          <Navbar handleNav={handleNav} />
+        </nav>
+      </footer>
+    </div>
   );
 };
 
