@@ -39,6 +39,10 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
       return unit === "c" ? "f" : "c";
     });
   };
+  const [nav, setNav] = useState(1);
+  const handleNav = (val: number) => {
+    setNav(val);
+  };
   useEffect(() => {
     axios
       .get(
@@ -74,10 +78,11 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
           <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
         </div>
       </div>
-      <div>
+      <div className="md:hidden">
         <div className="flex justify-center">
           <SMForecast
             unit={unit}
+            nav={nav}
             inVal={inVal}
             handleInput={handleInput}
             handleLoc={handleLoc}
@@ -86,7 +91,7 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
         </div>
         <footer className="flex md:hidden justify-center">
           <nav className="bg-white fixed bottom-0">
-            <Navbar />
+            <Navbar handleNav={handleNav} />
           </nav>
         </footer>
       </div>
