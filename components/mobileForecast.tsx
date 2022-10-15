@@ -5,7 +5,7 @@ import { formatDate } from "./tools/formatTime";
 import changeF from "./tools/changeF";
 import _ from "lodash";
 
-interface forecastProps {
+interface smforecastProps {
   inVal: string;
   handleInput: (val: string) => void;
   handleLoc: (val: string) => void;
@@ -13,7 +13,7 @@ interface forecastProps {
   data: InferGetStaticPropsType<GetStaticProps>;
 }
 
-const Forecast: React.FC<forecastProps> = ({
+const SMForecast: React.FC<smforecastProps> = ({
   unit,
   inVal,
   handleInput,
@@ -24,7 +24,7 @@ const Forecast: React.FC<forecastProps> = ({
   const time = formatDate(data.dt);
 
   return (
-    <div className="px-10 py-8 min-h-screen">
+    <div className="px-10 py-8 min-h-screen mb-16">
       <section className="" style={{ minHeight: "50vh" }}>
         <input
           placeholder="City"
@@ -90,4 +90,4 @@ const Forecast: React.FC<forecastProps> = ({
   );
 };
 
-export default Forecast;
+export default SMForecast;

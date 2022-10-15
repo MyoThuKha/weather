@@ -69,7 +69,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
         </div>
       </header>
       <section className="h-2/3">
-        <h2 className="text-2xl pb-8">Today HightLights</h2>
+        <h2 className="text-2xl pb-8 capitalize">forecast hightLights</h2>
         <div className="grid grid-cols-3 gap-8">
           {/* feel like */}
           <div className="hightlight-item">
@@ -146,7 +146,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
 
           <div className="hightlight-item">
             <div className="w-full">
-              <h4 className="hl-h">max & min</h4>
+              <p className="hl-h">max & min</p>
               <div className="flex items-center justify-around">
                 <div className="main-text text-center">
                   <p className="text-2xl">

@@ -3,21 +3,25 @@ import React, { useEffect, useMemo, useState } from "react";
 import Forecast from "../components/forecast";
 import Highlight from "../components/highlight";
 import axios from "axios";
+import Navbar from "../components/navbar";
+import SMForecast from "../components/mobileForecast";
 
 export const getStaticProps: GetStaticProps = async () => {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=51.5073219&lon=-0.1276474&units=metric&appid=6f4ce8fe8d083f8d130b00284a08378b`;
+  const apiKey = process.env.API_KEY;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=51.5073219&lon=-0.1276474&units=metric&appid=${apiKey}`;
   const res = await fetch(apiUrl);
   const initdata = await res.json();
   return {
-    props: { initdata },
+    props: { apiKey, initdata },
   };
 };
 
 interface homeProps {
+  apiKey: string;
   initdata: InferGetStaticPropsType<typeof getStaticProps>;
 }
 
-const Home: React.FC<homeProps> = ({ initdata }) => {
+const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   const [data, setData] = useState(initdata);
   const [unit, setUnit] = useState("c");
   const [inVal, setInVal] = useState("");
@@ -38,39 +42,55 @@ const Home: React.FC<homeProps> = ({ initdata }) => {
   useEffect(() => {
     axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=6f4ce8fe8d083f8d130b00284a08378b`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
       )
       .then((res) => {
         setCorr([res.data[0].lat, res.data[0].lon]);
       });
-  }, [location]);
-  console.log(corr);
+  }, [apiKey, location]);
   useEffect(() => {
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${corr[0]}&lon=${corr[1]}&units=metric&appid=6f4ce8fe8d083f8d130b00284a08378b`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${corr[0]}&lon=${corr[1]}&units=metric&appid=${apiKey}`
       )
       .then((res) => {
         setData(res.data);
       });
-  }, [corr]);
-  console.log(data);
+  }, [apiKey, corr]);
 
   return (
-    <div className="grid grid-cols-4">
-      <div className="col-span-1">
-        <Forecast
-          unit={unit}
-          inVal={inVal}
-          handleInput={handleInput}
-          handleLoc={handleLoc}
-          data={{ ...data }}
-        />
+    <>
+      <div className="hidden md:grid md:grid-cols-4">
+        <div className="col-span-1 flex justify-center">
+          <Forecast
+            unit={unit}
+            inVal={inVal}
+            handleInput={handleInput}
+            handleLoc={handleLoc}
+            data={{ ...data }}
+          />
+        </div>
+        <div className="hidden md:block md:col-span-3">
+          <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
+        </div>
       </div>
-      <div className=" col-span-3">
-        <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
+      <div>
+        <div className="flex justify-center">
+          <SMForecast
+            unit={unit}
+            inVal={inVal}
+            handleInput={handleInput}
+            handleLoc={handleLoc}
+            data={{ ...data }}
+          />
+        </div>
+        <footer className="flex md:hidden justify-center">
+          <nav className="bg-white fixed bottom-0">
+            <Navbar />
+          </nav>
+        </footer>
       </div>
-    </div>
+    </>
   );
 };
 

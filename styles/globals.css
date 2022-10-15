@@ -13,7 +13,9 @@ body {
 }
 
 .background {
-  background-image: url("https://picsum.photos/seed/picsum/240/128");
+  /* background-image: url("https://picsum.photos/seed/picsum/240/128"); */
+  /* 1068,1076,143,141,185 */
+  background-image: url("https://picsum.photos/id/1076/240/128");
 }
 
 .circle-btn {
@@ -45,4 +47,8 @@ body {
 }
 ::placeholder {
   color: black;
+}
+
+.navItem {
+  @apply inline-block px-5;
 }
