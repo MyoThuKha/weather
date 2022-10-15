@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next/types";
 import Image from "next/image";
-import ChangeUnit from "./tools/btn";
 import changeF from "./tools/changeF";
 import { formatTime } from "./tools/formatTime";
 import _ from "lodash";
@@ -50,9 +49,9 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
     else return "fair";
   }, [humidity]);
 
-  const [curr, setCurr] = useState(true);
+  const [isC, setCurr] = useState(true);
   const handleChange = () => {
-    setCurr(() => !curr);
+    setCurr(() => !isC);
     handleUnit();
   };
   return (
@@ -60,12 +59,18 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
       <header className="flex justify-between">
         <h2 className="text-lg">Today</h2>
         <div className="flex justify-between">
-          <ChangeUnit curr={curr} isC={true} handleChange={handleChange}>
+          <button
+            onClick={() => handleChange()}
+            className={isC ? "active-btn" : "other-btn"}
+          >
             °C
-          </ChangeUnit>
-          <ChangeUnit curr={curr} isC={false} handleChange={handleChange}>
+          </button>
+          <button
+            onClick={() => handleChange()}
+            className={isC ? "other-btn" : "active-btn"}
+          >
             °F
-          </ChangeUnit>
+          </button>
         </div>
       </header>
       <section className="h-2/3">

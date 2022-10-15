@@ -26,6 +26,7 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   const [inVal, setInVal] = useState("");
   const [location, setLocation] = useState("london");
   const [corr, setCorr] = useState<number[]>([51.5073219, -0.1276474]);
+  const [load, setLoad] = useState(false);
 
   const handleInput = (val: string) => {
     setInVal(val);
@@ -43,6 +44,7 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
     setNav(val);
   };
   useEffect(() => {
+    setLoad(true);
     axios
       .get(
         `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
@@ -58,10 +60,13 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
       )
       .then((res) => {
         setData(res.data);
+        setLoad(false);
       });
   }, [apiKey, corr]);
 
-  return (
+  return load ? (
+    <div>Loading</div>
+  ) : (
     <div className="md:grid md:grid-cols-7 lg:grid-cols-4">
       <div className="md:col-span-2 lg:col-span-1 flex justify-center">
         <Forecast

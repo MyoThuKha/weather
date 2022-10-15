@@ -26,6 +26,13 @@ body {
   @apply flex-center w-10 h-10 rounded-full shadow-sm mx-2 text-sm font-semibold;
 }
 
+.active-btn {
+  @apply bg-black text-white circle-btn;
+}
+.other-btn {
+  @apply bg-white circle-btn;
+}
+
 .hightlight-item {
   @apply bg-white shadow-md rounded-3xl col-span-1 p-5 flex items-center h-56;
 }
