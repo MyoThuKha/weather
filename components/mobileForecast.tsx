@@ -4,6 +4,7 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { formatDate, formatTime } from "./tools/formatTime";
 import changeF from "./tools/changeF";
 import _ from "lodash";
+import { HumidIcon, SunIcon, VisibleIcon, WindIcon } from "./tools/icon";
 
 interface smforecastProps {
   inVal: string;
@@ -65,6 +66,22 @@ const SMForecast: React.FC<smforecastProps> = ({
       );
   }, [nav, data, unit]);
 
+  const ImageIcon = useMemo(() => {
+    if (nav === 1) {
+      return (
+        <Image
+          src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+          alt="icon"
+          width={120}
+          height={120}
+        />
+      );
+    }
+    if (nav === 2) return <WindIcon size={100} />;
+    if (nav === 3) return <SunIcon size={100} />;
+    if (nav === 4) return <HumidIcon size={90} />;
+    if (nav === 5) return <VisibleIcon size={80} />;
+  }, [data.weather, nav]);
   return (
     <div className="px-10 py-8 min-h-screen mb-16">
       <section className="" style={{ minHeight: "50vh" }}>
@@ -82,12 +99,13 @@ const SMForecast: React.FC<smforecastProps> = ({
           }}
         />
         <div className="">
-          <Image
+          {/* <Image
             src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
             alt="icon"
             width={120}
             height={120}
-          />
+          /> */}
+          {ImageIcon}
         </div>
         <div>
           <div className="text-7xl capitalize">
