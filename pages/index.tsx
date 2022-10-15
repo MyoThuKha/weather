@@ -65,7 +65,9 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   }, [apiKey, corr]);
 
   return load ? (
-    <div>Loading</div>
+    <div className="bg-white-custom h-screen flex-center">
+      <div className="text-4xl">Loading...</div>
+    </div>
   ) : (
     <div className="md:grid md:grid-cols-7 lg:grid-cols-4">
       <div className="md:col-span-2 lg:col-span-1 flex justify-center">
