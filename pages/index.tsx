@@ -48,7 +48,7 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
     setLoad(true);
     axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
       )
       .then((res) => {
         setCorr([res.data[0].lat, res.data[0].lon]);
