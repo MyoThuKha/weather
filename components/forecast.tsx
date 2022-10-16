@@ -1,9 +1,5 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { formatDate, formatTime } from "./tools/formatTime";
-import changeF from "./tools/changeF";
-import _ from "lodash";
 import { HumidIcon, SunIcon, VisibleIcon, WindIcon } from "./tools/icon";
 
 interface forecastProps {
@@ -12,7 +8,16 @@ interface forecastProps {
   handleInput: (val: string) => void;
   handleLoc: (val: string) => void;
   unit: string;
-  data: InferGetStaticPropsType<GetStaticProps>;
+  sunrise: string;
+  sunset: string;
+  time: string[];
+  windSpeed: number;
+  visible: number;
+  temperature: number;
+  weather: { main: string; description: string; icon: string };
+  humidity: number;
+  city: string;
+  clouds: string;
 }
 
 const Forecast: React.FC<forecastProps> = ({
@@ -21,10 +26,19 @@ const Forecast: React.FC<forecastProps> = ({
   inVal,
   handleInput,
   handleLoc,
-  data,
+  // data,
+  temperature,
+  humidity,
+  time,
+  sunrise,
+  sunset,
+  windSpeed,
+  visible,
+  weather,
+  city,
+  clouds,
 }) => {
-  const temperature = unit === "f" ? changeF(data.main.temp) : data.main.temp;
-  const time = formatDate(data.dt);
+  // const temperature =
 
   const Display = useMemo(() => {
     if (nav === 1)
@@ -37,7 +51,7 @@ const Forecast: React.FC<forecastProps> = ({
     if (nav === 2)
       return (
         <p>
-          {_.ceil(data.wind.speed * 3.6, 2)}
+          {windSpeed}
           <span className="text-4xl lowercase"> km/h</span>
         </p>
       );
@@ -45,32 +59,32 @@ const Forecast: React.FC<forecastProps> = ({
       return (
         <div className="text-5xl uppercase">
           <p className="hl-h">sunrise</p>
-          <p>{formatTime(data.sys.sunrise)}</p>
+          <p>{sunrise}</p>
           <p className="hl-h">sunset</p>
-          <p>{formatTime(data.sys.sunset)}</p>
+          <p>{sunset}</p>
         </div>
       );
     if (nav === 4)
       return (
         <p>
-          {data.main.humidity}
+          {humidity}
           <span className="text-4xl lowercase"> %</span>
         </p>
       );
     if (nav === 5)
       return (
         <p>
-          {data.visibility / 1000}
+          {visible}
           <span className="text-4xl lowercase"> km</span>
         </p>
       );
-  }, [nav, temperature, unit, data]);
+  }, [nav, temperature, unit, windSpeed, sunrise, sunset, humidity, visible]);
 
   const ImageIcon = useMemo(() => {
     if (nav === 1) {
       return (
         <Image
-          src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+          src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`}
           alt="icon"
           width={120}
           height={120}
@@ -81,7 +95,7 @@ const Forecast: React.FC<forecastProps> = ({
     if (nav === 3) return <SunIcon size={100} />;
     if (nav === 4) return <HumidIcon size={90} />;
     if (nav === 5) return <VisibleIcon size={80} />;
-  }, [data.weather, nav]);
+  }, [weather, nav]);
 
   return (
     <div className="px-10 py-8 min-h-screen mb-16 md:mb-0">
@@ -106,7 +120,7 @@ const Forecast: React.FC<forecastProps> = ({
             {Display}
           </div>
           <p className="text-lg capitalize">
-            {time[0]}, <span className=" text-gray-400">{time[1]}</span>
+            {time[0]}, <span className="text-gray-400">{time[1]}</span>
           </p>
         </div>
       </section>
@@ -122,7 +136,7 @@ const Forecast: React.FC<forecastProps> = ({
                 height={40}
               />
               <p className="text-lg md:text-sm capitalize py-1">
-                {data.weather[0].description}
+                {weather.description}
               </p>
             </div>
             <div className="flex items-center">
@@ -132,11 +146,11 @@ const Forecast: React.FC<forecastProps> = ({
                 width={40}
                 height={40}
               />
-              <p className="text-lg md:text-sm">Cloud - {data.clouds.all}%</p>
+              <p className="text-lg md:text-sm">Cloud - {clouds}%</p>
             </div>
           </div>
           <div className="mx-2 w-60">
-            <div className="cityCard">{data.name}</div>
+            <div className="cityCard">{city}</div>
           </div>
           {/* <div className="relative mx-2 flex-center">
             <Image

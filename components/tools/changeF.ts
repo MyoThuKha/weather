@@ -1,5 +1,4 @@
-import _ from "lodash";
-const changeF = (val: number) => {
-  return _.ceil((val * 9) / 5 + 32, 2);
+const changeF = (val: number): number => {
+  return parseFloat(((val * 9) / 5 + 32).toFixed(2));
 };
 export default changeF;

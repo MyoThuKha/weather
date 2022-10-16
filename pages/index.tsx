@@ -2,9 +2,10 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import React, { useEffect, useMemo, useState } from "react";
 import Forecast from "../components/forecast";
 import Highlight from "../components/highlight";
-import axios from "axios";
 import Navbar from "../components/navbar";
 import Head from "next/head";
+import { formatDate, formatTime } from "../components/tools/formatTime";
+import changeF from "../components/tools/changeF";
 
 export const getStaticProps: GetStaticProps = async () => {
   const apiKey = process.env.API_KEY;
@@ -28,42 +29,76 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   const [location, setLocation] = useState("london");
   const [corr, setCorr] = useState<number[]>([51.5073219, -0.1276474]);
   const [load, setLoad] = useState(false);
+  const [nav, setNav] = useState(1);
 
+  const handleUnit = () => {
+    setUnit(() => (unit === "c" ? "f" : "c"));
+  };
   const handleInput = (val: string) => {
     setInVal(val);
   };
-  const handleLoc = (val: string) => {
+  const handleLocation = (val: string) => {
     setLocation(val);
   };
-  const handleUnit = () => {
-    setUnit(() => {
-      return unit === "c" ? "f" : "c";
-    });
-  };
-  const [nav, setNav] = useState(1);
   const handleNav = (val: number) => {
     setNav(val);
   };
+
+  //Data Fetching
   useEffect(() => {
     setLoad(true);
-    axios
-      .get(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
-      )
+    fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
+    )
       .then((res) => {
-        setCorr([res.data[0].lat, res.data[0].lon]);
-      });
+        return res.json();
+      })
+      .then((result) => setCorr([result[0].lat, result[0].lon]));
   }, [apiKey, location]);
   useEffect(() => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${corr[0]}&lon=${corr[1]}&units=metric&appid=${apiKey}`
-      )
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${corr[0]}&lon=${corr[1]}&units=metric&appid=${apiKey}`
+    )
       .then((res) => {
-        setData(res.data);
+        return res.json();
+      })
+      .then((result) => {
+        setData(result);
         setLoad(false);
       });
   }, [apiKey, corr]);
+
+  //changing datas
+  const temperature = useMemo(() => {
+    return unit === "f" ? changeF(data.main.temp) : data.main.temp;
+  }, [data.main.temp, unit]);
+  const time = useMemo(() => {
+    return formatDate(data.dt);
+  }, [data.dt]);
+  const sunrise = useMemo(() => {
+    return formatTime(data.sys.sunrise);
+  }, [data.sys.sunrise]);
+  const sunset = useMemo(() => {
+    return formatTime(data.sys.sunset);
+  }, [data.sys.sunset]);
+  const windSpeed: number = useMemo(() => {
+    return parseFloat((data.wind.speed * 3.6).toFixed(2));
+  }, [data.wind.speed]);
+  const visible = useMemo(() => {
+    return data.visibility / 1000;
+  }, [data.visibility]);
+  const min_temp: number = useMemo(
+    () => (unit === "f" ? changeF(data.main.temp_min) : data.main.temp_min),
+    [data.main.temp_min, unit]
+  );
+  const max_temp: number = useMemo(
+    () => (unit === "f" ? changeF(data.main.temp_max) : data.main.temp_max),
+    [data.main.temp_max, unit]
+  );
+  const feelLike: number = useMemo(
+    () => (unit === "f" ? changeF(data.main.feels_like) : data.main.feels_like),
+    [data.main.feels_like, unit]
+  );
 
   return load ? (
     <>
@@ -86,12 +121,34 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
             nav={nav}
             inVal={inVal}
             handleInput={handleInput}
-            handleLoc={handleLoc}
-            data={{ ...data }}
+            handleLoc={handleLocation}
+            humidity={data.main.humidity}
+            weather={data.weather[0]}
+            temperature={temperature}
+            sunrise={sunrise}
+            sunset={sunset}
+            time={time}
+            windSpeed={windSpeed}
+            visible={visible}
+            city={data.name}
+            clouds={data.clouds.all}
           />
         </div>
         <div className="hidden md:block md:col-span-5 lg:col-span-3">
-          <Highlight unit={unit} data={{ ...data }} handleUnit={handleUnit} />
+          <Highlight
+            unit={unit}
+            data={{ ...data }}
+            handleUnit={handleUnit}
+            sunrise={sunrise}
+            sunset={sunset}
+            windSpeed={windSpeed}
+            visible={visible}
+            humidity={data.main.humidity}
+            wind={data.wind}
+            min_temp={min_temp}
+            max_temp={max_temp}
+            feelLike={feelLike}
+          />
         </div>
         <footer className="flex md:hidden justify-center">
           <nav className="bg-white fixed bottom-0">

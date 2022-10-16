@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { HumidIcon, SunIcon, VisibleIcon, WindIcon } from "./tools/icon";
 
 interface navbarProps {

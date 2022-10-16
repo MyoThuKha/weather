@@ -2,32 +2,38 @@ import React, { useMemo, useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next/types";
 import Image from "next/image";
 import changeF from "./tools/changeF";
-import { formatTime } from "./tools/formatTime";
-import _ from "lodash";
 
 interface highlightProps {
   unit: string;
   handleUnit: () => void;
   data: InferGetStaticPropsType<GetStaticProps>;
+  sunrise: string;
+  sunset: string;
+  windSpeed: number;
+  visible: number;
+  humidity: number;
+  wind: { speed: number; deg: number };
+  min_temp: number;
+  max_temp: number;
+  feelLike: number;
 }
 
-const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
-  const wind = data.wind;
-  const humidity: number = data.main.humidity;
-  const windSpeed = _.ceil(wind.speed * 3.6, 2);
-  const visible = data.visibility / 1000;
-  const sunrise = formatTime(data.sys.sunrise);
-  const sunset = formatTime(data.sys.sunset);
-
-  let min_temp: number = data.main.temp_min;
-  let max_temp: number = data.main.temp_max;
-  let feelLike: number = data.main.feels_like;
-
-  if (unit === "f") {
-    min_temp = changeF(min_temp);
-    max_temp = changeF(max_temp);
-    feelLike = changeF(feelLike);
-  }
+const Highlight: React.FC<highlightProps> = ({
+  unit,
+  handleUnit,
+  // data,
+  sunrise,
+  sunset,
+  windSpeed,
+  visible,
+  humidity,
+  wind,
+  min_temp,
+  max_temp,
+  feelLike,
+}) => {
+  // const wind = data.wind;
+  // const humidity: number = data.main.humidity;
 
   const temp_condition: string = useMemo(() => {
     const value = unit === "c" ? changeF(feelLike) : feelLike;
