@@ -74,7 +74,6 @@ const Forecast: React.FC<forecastProps> = ({
           alt="icon"
           width={120}
           height={120}
-          priority
         />
       );
     }
@@ -121,7 +120,6 @@ const Forecast: React.FC<forecastProps> = ({
                 alt="icon"
                 width={40}
                 height={40}
-                priority
               />
               <p className="text-lg md:text-sm capitalize py-1">
                 {data.weather[0].description}
@@ -133,12 +131,11 @@ const Forecast: React.FC<forecastProps> = ({
                 alt="icon"
                 width={40}
                 height={40}
-                priority
               />
               <p className="text-lg md:text-sm">Cloud - {data.clouds.all}%</p>
             </div>
           </div>
-          <div className="mx-2">
+          <div className="mx-2 w-60">
             <div className="cityCard">{data.name}</div>
           </div>
           {/* <div className="relative mx-2 flex-center">
@@ -149,7 +146,6 @@ const Forecast: React.FC<forecastProps> = ({
               width={240}
               height={128}
               objectFit="cover"
-              priority
             />
             <p className="bgText">{data.name}</p>
           </div> */}

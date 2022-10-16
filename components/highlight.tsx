@@ -4,7 +4,6 @@ import Image from "next/image";
 import changeF from "./tools/changeF";
 import { formatTime } from "./tools/formatTime";
 import _ from "lodash";
-import { motion } from "framer-motion";
 
 interface highlightProps {
   unit: string;
@@ -61,20 +60,18 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
       <header className="flex justify-between">
         <h2 className="text-lg">Today</h2>
         <div className="flex justify-between bg-slate-200 rounded-full py-2">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
+          <button
             onClick={() => handleChange(true)}
             className={isC ? "active-btn" : "other-btn"}
           >
             °C
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
+          </button>
+          <div
             onClick={() => handleChange(false)}
             className={isC ? "other-btn" : "active-btn"}
           >
             °F
-          </motion.button>
+          </div>
         </div>
       </header>
       <section className="h-2/3">
@@ -127,7 +124,6 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                       alt="sunrise"
                       width={40}
                       height={40}
-                      priority
                     />
                   </div>
                   <p className="md:text-xl lg:text-2xl">{sunrise}</p>
@@ -139,7 +135,6 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                       alt="sunset"
                       width={40}
                       height={40}
-                      priority
                     />
                   </div>
                   <p className="md:text-xl lg:text-2xl">{sunset}</p>
@@ -190,7 +185,6 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                     alt="temp"
                     width={40}
                     height={83.2}
-                    priority
                   />
                 </div>
               </div>
