@@ -13,17 +13,20 @@ body {
 }
 
 .background {
-  /* background-image: url("https://picsum.photos/seed/picsum/240/128"); */
-  /* 1068,1076,143,141,185 */
-  background-image: url("https://picsum.photos/id/1076/240/128");
+  background-image: url("/city.jpg");
+}
+.cityCard {
+  @apply w-full h-32 rounded-3xl text-white flex-center drop-shadow-2xl background;
+}
+.bgImage {
+  @apply rounded-3xl;
+}
+.bgText {
+  @apply absolute text-white text-center;
 }
 
 .goBack {
   @apply bg-blue-300 rounded-full py-2 px-4 shadow-lg inline-block;
-}
-
-.cityCard {
-  @apply w-full h-32 rounded-3xl text-white flex-center drop-shadow-2xl background;
 }
 
 .circle-btn {

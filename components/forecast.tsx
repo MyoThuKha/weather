@@ -74,6 +74,7 @@ const Forecast: React.FC<forecastProps> = ({
           alt="icon"
           width={120}
           height={120}
+          priority
         />
       );
     }
@@ -85,7 +86,7 @@ const Forecast: React.FC<forecastProps> = ({
 
   return (
     <div className="px-10 py-8 min-h-screen mb-16 md:mb-0">
-      <section className="" style={{ minHeight: "50vh" }}>
+      <section className="mb-8">
         <input
           placeholder="City"
           className="input-box"
@@ -99,7 +100,7 @@ const Forecast: React.FC<forecastProps> = ({
             }
           }}
         />
-        <div className="">{ImageIcon}</div>
+        <div className="my-5 md:my-0">{ImageIcon}</div>
         <div>
           <div className="text-7xl md:text-6xl lg:text-7xl capitalize">
             {/* {Display}°<sup className="text-5xl">{unit}</sup> */}
@@ -111,7 +112,7 @@ const Forecast: React.FC<forecastProps> = ({
         </div>
       </section>
       <hr />
-      <section style={{ minHeight: "40vh" }} className="flex items-center">
+      <section className="flex items-center">
         <div className="w-full">
           <div className="py-4">
             <div className="flex items-center">
@@ -120,8 +121,9 @@ const Forecast: React.FC<forecastProps> = ({
                 alt="icon"
                 width={40}
                 height={40}
+                priority
               />
-              <p className="text-sm capitalize py-1">
+              <p className="text-lg md:text-sm capitalize py-1">
                 {data.weather[0].description}
               </p>
             </div>
@@ -131,13 +133,26 @@ const Forecast: React.FC<forecastProps> = ({
                 alt="icon"
                 width={40}
                 height={40}
+                priority
               />
-              <p className="text-sm">Cloud - {data.clouds.all}%</p>
+              <p className="text-lg md:text-sm">Cloud - {data.clouds.all}%</p>
             </div>
           </div>
           <div className="mx-2">
             <div className="cityCard">{data.name}</div>
           </div>
+          {/* <div className="relative mx-2 flex-center">
+            <Image
+              className="bgImage"
+              alt="city"
+              src="/city.jpg"
+              width={240}
+              height={128}
+              objectFit="cover"
+              priority
+            />
+            <p className="bgText">{data.name}</p>
+          </div> */}
         </div>
       </section>
     </div>

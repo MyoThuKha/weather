@@ -12,8 +12,8 @@ export const Navbar: React.FC<navbarProps> = ({ handleNav }) => {
       <div className="navItem" onClick={() => handleNav(1)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="26"
+          height="26"
           fill="currentColor"
           className="bi bi-house-fill"
           viewBox="0 0 16 16"
@@ -29,16 +29,16 @@ export const Navbar: React.FC<navbarProps> = ({ handleNav }) => {
         </svg>
       </div>
       <div className="navItem" onClick={() => handleNav(2)}>
-        <WindIcon size={16} />
+        <WindIcon size={26} />
       </div>
       <div className="navItem" onClick={() => handleNav(3)}>
-        <SunIcon size={25} />
+        <SunIcon size={35} />
       </div>
       <div className="navItem" onClick={() => handleNav(4)}>
-        <HumidIcon size={16} />
+        <HumidIcon size={26} />
       </div>
       <div className="navItem" onClick={() => handleNav(5)}>
-        <VisibleIcon size={16} />
+        <VisibleIcon size={26} />
       </div>
     </div>
   );

@@ -127,6 +127,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                       alt="sunrise"
                       width={40}
                       height={40}
+                      priority
                     />
                   </div>
                   <p className="md:text-xl lg:text-2xl">{sunrise}</p>
@@ -138,6 +139,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                       alt="sunset"
                       width={40}
                       height={40}
+                      priority
                     />
                   </div>
                   <p className="md:text-xl lg:text-2xl">{sunset}</p>
@@ -188,6 +190,7 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
                     alt="temp"
                     width={40}
                     height={83.2}
+                    priority
                   />
                 </div>
               </div>

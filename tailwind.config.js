@@ -9,6 +9,10 @@ module.exports = {
       backgroundColor: {
         "white-custom": "#f6f6f8",
       },
+      minHeight: {
+        "h-sc-50": "50vh",
+        "h-sc-40": "40vh",
+      },
     },
   },
   plugins: [],
