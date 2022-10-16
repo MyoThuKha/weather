@@ -4,6 +4,7 @@ import Image from "next/image";
 import changeF from "./tools/changeF";
 import { formatTime } from "./tools/formatTime";
 import _ from "lodash";
+import { motion } from "framer-motion";
 
 interface highlightProps {
   unit: string;
@@ -49,28 +50,31 @@ const Highlight: React.FC<highlightProps> = ({ unit, handleUnit, data }) => {
     else return "fair";
   }, [humidity]);
 
-  const [isC, setCurr] = useState(true);
-  const handleChange = () => {
-    setCurr(() => !isC);
+  const [isC, setIsC] = useState(true);
+  const handleChange = (curr: boolean) => {
+    if (isC === curr) return;
+    setIsC(() => !isC);
     handleUnit();
   };
   return (
     <div className="min-h-screen px-14 text-lg py-8 bg-white-custom">
       <header className="flex justify-between">
         <h2 className="text-lg">Today</h2>
-        <div className="flex justify-between">
-          <button
-            onClick={() => handleChange()}
+        <div className="flex justify-between bg-slate-200 rounded-full py-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            onClick={() => handleChange(true)}
             className={isC ? "active-btn" : "other-btn"}
           >
             °C
-          </button>
-          <button
-            onClick={() => handleChange()}
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            onClick={() => handleChange(false)}
             className={isC ? "other-btn" : "active-btn"}
           >
             °F
-          </button>
+          </motion.button>
         </div>
       </header>
       <section className="h-2/3">
