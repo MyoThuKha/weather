@@ -5,8 +5,8 @@ import { HumidIcon, SunIcon, VisibleIcon, WindIcon } from "./tools/icon";
 interface forecastProps {
   inVal: string;
   nav: number;
+  fetchData: (location: string) => void;
   handleInput: (val: string) => void;
-  handleLoc: (val: string) => void;
   unit: string;
   sunrise: string;
   sunset: string;
@@ -25,7 +25,7 @@ const Forecast: React.FC<forecastProps> = ({
   nav,
   inVal,
   handleInput,
-  handleLoc,
+  fetchData,
   // data,
   temperature,
   humidity,
@@ -109,7 +109,7 @@ const Forecast: React.FC<forecastProps> = ({
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              handleLoc(inVal);
+              fetchData(inVal);
             }
           }}
         />

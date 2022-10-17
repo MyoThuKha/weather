@@ -6,6 +6,7 @@ import Navbar from "../components/navbar";
 import Head from "next/head";
 import { formatDate, formatTime } from "../components/tools/formatTime";
 import changeF from "../components/tools/changeF";
+import { result } from "lodash";
 
 export const getStaticProps: GetStaticProps = async () => {
   const apiKey = process.env.API_KEY;
@@ -26,8 +27,6 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   const [data, setData] = useState(initdata);
   const [unit, setUnit] = useState("c");
   const [inVal, setInVal] = useState("");
-  const [location, setLocation] = useState("london");
-  const [corr, setCorr] = useState<number[]>([51.5073219, -0.1276474]);
   const [load, setLoad] = useState(false);
   const [nav, setNav] = useState(1);
 
@@ -37,36 +36,24 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
   const handleInput = (val: string) => {
     setInVal(val);
   };
-  const handleLocation = (val: string) => {
-    setLocation(val);
-  };
   const handleNav = (val: number) => {
     setNav(val);
   };
 
   //Data Fetching
-  useEffect(() => {
+  const fetchData = async (location: string) => {
     setLoad(true);
-    fetch(
+    const lores = await fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => setCorr([result[0].lat, result[0].lon]));
-  }, [apiKey, location]);
-  useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${corr[0]}&lon=${corr[1]}&units=metric&appid=${apiKey}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setData(result);
-        setLoad(false);
-      });
-  }, [apiKey, corr]);
+    );
+    const lodata = await lores.json();
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lodata[0].lat}&lon=${lodata[0].lon}&units=metric&appid=${apiKey}`
+    );
+    const data = await res.json();
+    setData(data);
+    setLoad(false);
+  };
 
   //changing datas
   const temperature = useMemo(() => {
@@ -120,8 +107,8 @@ const Home: React.FC<homeProps> = ({ apiKey, initdata }) => {
             unit={unit}
             nav={nav}
             inVal={inVal}
+            fetchData={fetchData}
             handleInput={handleInput}
-            handleLoc={handleLocation}
             humidity={data.main.humidity}
             weather={data.weather[0]}
             temperature={temperature}
