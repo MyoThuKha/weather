@@ -32,9 +32,6 @@ const Highlight: React.FC<highlightProps> = ({
   max_temp,
   feelLike,
 }) => {
-  // const wind = data.wind;
-  // const humidity: number = data.main.humidity;
-
   const temp_condition: string = useMemo(() => {
     const value = unit === "c" ? changeF(feelLike) : feelLike;
     if (value > 80) return "hot";
@@ -55,16 +52,17 @@ const Highlight: React.FC<highlightProps> = ({
     else return "fair";
   }, [humidity]);
 
-  const [isC, setIsC] = useState(true);
+  const [isC, setIsC] = useState(unit === "c" ? true : false);
   const handleChange = (curr: boolean) => {
     if (isC === curr) return;
     setIsC(() => !isC);
     handleUnit();
   };
   return (
-    <div className="min-h-screen px-14 text-lg py-8 bg-white-custom">
-      <header className="flex justify-between">
-        <h2 className="text-lg">Today</h2>
+    <div className="min-h-screen px-14 text-lg pb-8 pt-6  bg-white-custom">
+      <header className="flex justify-between items-center mb-6">
+        {/* <h2 className="text-lg">Today</h2> */}
+        <h2 className="text-2xl capitalize">forecast hightLights</h2>
         <div className="flex justify-between bg-slate-200 rounded-full py-2">
           <button
             onClick={() => handleChange(true)}
@@ -81,7 +79,7 @@ const Highlight: React.FC<highlightProps> = ({
         </div>
       </header>
       <section className="h-2/3">
-        <h2 className="text-2xl pb-8 capitalize">forecast hightLights</h2>
+        {/* <h2 className="text-2xl pb-8 capitalize">forecast hightLights</h2> */}
         <div className="grid grid-cols-3 md:gap-2 lg:gap-8">
           {/* feel like */}
           <div className="hightlight-item">

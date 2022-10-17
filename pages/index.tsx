@@ -6,7 +6,6 @@ import Navbar from "../components/navbar";
 import Head from "next/head";
 import { formatDate, formatTime } from "../components/tools/formatTime";
 import changeF from "../components/tools/changeF";
-import { result } from "lodash";
 
 export const getStaticProps: GetStaticProps = async () => {
   const apiKey = process.env.API_KEY;

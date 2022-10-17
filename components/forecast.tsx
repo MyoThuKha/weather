@@ -5,7 +5,7 @@ import { HumidIcon, SunIcon, VisibleIcon, WindIcon } from "./tools/icon";
 interface forecastProps {
   inVal: string;
   nav: number;
-  fetchData: (location: string) => void;
+  fetchData: (city: string) => void;
   handleInput: (val: string) => void;
   unit: string;
   sunrise: string;
@@ -38,8 +38,6 @@ const Forecast: React.FC<forecastProps> = ({
   city,
   clouds,
 }) => {
-  // const temperature =
-
   const Display = useMemo(() => {
     if (nav === 1)
       return (
